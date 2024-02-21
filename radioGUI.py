@@ -448,9 +448,18 @@ class RadioM036(ttk.Frame):
         return x    
     def showvalue_scale_freq(self):
         X=self.tuneFreq.get()
+        X=self.frequencyMHz
         self.labelTuneFreq['text']="{f:.2f} MHz".format(f=X)
         self.sliderLength=30
-        x = self.toCanvasX(X,(self.frequencyMHz_max-self.frequencyMHz_min),self.frequencyMHz_min,self.scaleFreq.winfo_width()-self.sliderLength, self.sliderLength/2 )
+        if self.scaleFreq.winfo_width() < 100 :
+            w=260
+        else:
+            w=self.scaleFreq.winfo_width()
+        dX= (self.frequencyMHz_max-self.frequencyMHz_min)
+        X0=self.frequencyMHz_min
+        dx=w-self.sliderLength
+        x0=self.sliderLength/2
+        x = self.toCanvasX(X,dX,X0,dx,x0)
         self.labelTuneFreq.place_configure(x=x)
     
     def set_audio_source_volume(self,event):
@@ -488,6 +497,7 @@ class RadioM036(ttk.Frame):
    
     def controlPanel_upDown(self,event):
         if self.ctrlPanelUp:
+            self.showvalue_scale_freq()
             self.frameControl.grid(row=2,sticky=tk.N+tk.E+tk.S+tk.W)
             self.frameAudioControl.grid(row=3,sticky=tk.N+tk.E+tk.S+tk.W,pady=(3,0))
             self.frameButton.controlUpDownLabel['image']=self.imgGoTop
