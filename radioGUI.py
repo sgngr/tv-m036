@@ -448,7 +448,6 @@ class RadioM036(ttk.Frame):
         return x    
     def showvalue_scale_freq(self):
         X=self.tuneFreq.get()
-        X=self.frequencyMHz
         self.labelTuneFreq['text']="{f:.2f} MHz".format(f=X)
         self.sliderLength=30
         if self.scaleFreq.winfo_width() < 100 :
