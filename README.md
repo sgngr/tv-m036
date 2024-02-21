@@ -24,7 +24,7 @@ tvM036 is a Linux app for the AVerMedia AVerTV USB2.0 Plus (USB Id: 07ca:0036). 
 
 - VLC media player
     
-    It is used to play audio and video stream. 
+    It is used to play audio and video stream. VLC developments packages are also to be installed.
     
 - Python >= 3.7
    
