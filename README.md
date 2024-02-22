@@ -57,7 +57,7 @@ tvM036 is a Linux app for the AVerMedia AVerTV USB2.0 Plus (USB Id: 07ca:0036). 
     
 - TV system 
 
-    The device is for reception of analog television signals. In the `tvChannels' module, a frequency dictinoary is given for PAL B/G TV standard.
+    The device is for reception of analog television signals. In the `tvChannels` module, a frequency dictinoary is given for PAL B/G TV standard.
     It needs to be modified for other TV standards.
 
 - Channel scanner
@@ -67,3 +67,5 @@ tvM036 is a Linux app for the AVerMedia AVerTV USB2.0 Plus (USB Id: 07ca:0036). 
 ## Tips
     
 - In case of poor or unexpected image quality, unplugging the USB connector during video streaming may result in a hard reset of the device.
+
+- In the event of trouble, it can be helpful to compile and execute C code (`tvM036.c`).
