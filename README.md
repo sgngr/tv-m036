@@ -68,4 +68,4 @@ tvM036 is a Linux app for the AVerMedia AVerTV USB2.0 Plus (USB Id: 07ca:0036). 
     
 - In case of poor or unexpected image quality, unplugging the USB connector during video streaming may result in a hard reset of the device.
 
-- In the event of trouble, it can be helpful to compile and execute C code (`tvM036.c`).
+- In the event of trouble, it can be helpful to compile and execute C code ( [tvM036.c](https://github.com/sgngr/tv-m036/blob/main/wireshark/tvM036.c)).
