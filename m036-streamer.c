@@ -555,6 +555,15 @@ int main (int argc, char **argv) {
     else
        fprintf(stderr,"*  Interface %d, Setting %d is active\n",0,0);
     
+    
+    fprintf(stderr, "* Release interface ...\n");
+    r = libusb_release_interface(devh, interface);
+    if (r != 0) {
+       fprintf(stderr, "*  Release interface failed with error %d\n", r);
+       exit(1);
+    }
+    
+    
     printf("* End of program.\n* <----------------\n");
     
     out:
