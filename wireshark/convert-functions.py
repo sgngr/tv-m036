@@ -1,3 +1,4 @@
+
 #=======================================================================
 import sys
 
@@ -56,7 +57,8 @@ for i in range(len(lines)):
         i+=1
         line=lines[i][0:-1]
         print("//~ ",line)
-        print("     c = sbi_read({});".format(ra))    
+        rval=line[-2:]
+        print("     c = sbi_read({}); // c:0x{}".format(ra,rval))    
         
     elif "ctrl_tx(0x0504," in line :
         mx=line[-8:-2]
