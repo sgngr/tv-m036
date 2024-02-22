@@ -512,11 +512,15 @@ class M036Device():
     def vdi_stop_capturing(self):
         """Stop video capture."""
         self.clear_register_bit(dc1120.DCTRL,7)
+    
+    def vdi_setup_decoder(self):
+        """Setup video decoder."""
+        self.ctrl_tx(dc1120.DCTRL,0x0033)
 
     def vdi_disable_vbi(self):
         """Turn the VBI mode off."""
         self.ctrl_tx(dc1120.DCTRL+3,0x0000)
-     
+    
     def vdi_set_capture_start(self,start):
         """Set capture start position."""
         x0=start.x
@@ -909,7 +913,8 @@ class M036Device():
         self.ctrl_tx(0x000f,0x0002) # Remote Wakeup Control,  GPIO[8:9] : Enables USB remote wakeup for corresponding GPIO 
         
         # Video decoder TI TVP5150AM1
-        self.vdi_disable_vbi()  # DCTRL+3 : 0x00 VBI mod disabled
+        self.vdi_setup_decoder()    # DCTRL   : 0x33
+        self.vdi_disable_vbi()      # DCTRL+3 : 0x00 VBI mod disabled
         
         # Timing generator
         self.tg_set_timing_generator()
