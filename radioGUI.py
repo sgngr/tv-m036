@@ -450,7 +450,7 @@ class RadioM036(ttk.Frame):
         X=self.tuneFreq.get()
         self.labelTuneFreq['text']="{f:.2f} MHz".format(f=X)
         self.sliderLength=30
-        if self.scaleFreq.winfo_width() < 100 :
+        if self.scaleFreq.winfo_width() < 10 :
             w=260
         else:
             w=self.scaleFreq.winfo_width()
@@ -495,6 +495,7 @@ class RadioM036(ttk.Frame):
     # =============================================================================  
    
     def controlPanel_upDown(self,event):
+        self.station_changed(event=None)
         if self.ctrlPanelUp:
             self.showvalue_scale_freq()
             self.frameControl.grid(row=2,sticky=tk.N+tk.E+tk.S+tk.W)
