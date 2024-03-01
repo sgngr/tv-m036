@@ -232,8 +232,9 @@ class M036Device():
     Other hardware control functions are:
       - Video decoder (Texas Instruments TVP5150AM1) functions: video_decoder_....()
       - Tuner functions (LG TALN-M205T): tv_tuner_....()
-      - Audio functions (): audio_....()
-      - Video functions (): video_....()
+      - Audio functions: audio_....()
+      - Video functions: video_....()
+      - Remote control functions: rc_...()
     """
 
     def __init__(self):
@@ -277,7 +278,8 @@ class M036Device():
 
         self.tvTunerFrequency=500.25
 
-
+       
+        
     def find(self):
         """Find the device."""
         usbContext=usb.USBContext()
@@ -1389,7 +1391,18 @@ class M036Device():
         if selectedInput==0x04:
             print("Selected input channel: Line input")
 
-
+    def rc_read(self):
+        """Read key code form remote control."""
+        self.sbi_select_device(0x82)
+        keycodeL = self.sbi_read(0x000d); 
+        keycodeH = self.sbi_read(0x000b);
+        keycode=keycodeH<<8|keycodeL
+        return keycode
+    def rc_flush(self):
+        """Flush remote control cache."""
+        keycode=self.rc_read()
+        while keycode != 0xffff :
+            keycode=self.rc_read()
 
 class I2C(object):
     """Main controller (Syntek DC1120) of the device communicate with the FM stereo radio chip TEA5767 over I2C bus.
