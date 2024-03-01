@@ -1392,7 +1392,7 @@ class M036Device():
             print("Selected input channel: Line input")
 
     def rc_read(self):
-        """Read key code form remote control."""
+        """Read key code from remote control."""
         self.sbi_select_device(0x82)
         keycodeL = self.sbi_read(0x000d); 
         keycodeH = self.sbi_read(0x000b);
