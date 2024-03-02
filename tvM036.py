@@ -24,6 +24,8 @@ print ("AVerTV USB2.0 Plus found!")
 m036.open() 
 m036.gpio_led(True)
 m036.init_device()
+m036.rc_flush()
+
 print("----------------------------------------------------------------")
 
 #===============================================================================
@@ -197,6 +199,107 @@ from tkinter import ttk
 from tkinter import font as tkFont
 
 #===============================================================================
+# AVerMedia RM-FR Remote Control
+RM_FR_Key_Codes = {
+    "RC_POWER":0x0200,
+    "RC_TV_TM":0x0201,
+    "RC_202":0x0202,
+    "RC_TELETEXT":0x0203,
+    "RC_SOURCE":0x0204,
+    "RC_1":0x0205,
+    "RC_2":0x0206,
+    "RC_3":0x0207,
+    "RC_AUDIO":0x0208,
+    "RC_4":0x0209,
+    "RC_5":0x020a,
+    "RC_6":0x020b,
+    "RC_FULL_SCREEN":0x020c,
+    "RC_7":0x020d,
+    "RC_8":0x020e,
+    "RC_9":0x020f,
+    "RC_16CH_PREV":0x0210,
+    "RC_0":0x0211,
+    "RC_DISPLAY":0x0212,
+    "RC_CH_RTN":0x0213,
+    "RC_MUTE":0x0214,
+    "RC_AUTO_SCAN":0x0215,
+    "RC_216":0x0216,
+    "RC_SNAPSHOT":0x0217,
+    "RC_PLAY":0x0218,
+    "RC_STOP":0x0219,
+    "RC_TIME_SHIFT":0x021a,
+    "RC_PAUSE":0x021b,
+    "RC_YELLOW":0x021c,
+    "RC_RED":0x021d,
+    "RC_VOL_DOWN":0x021e,
+    "RC_VOL_UP":0x021f,
+    "RC_BLUE":0x0300,
+    "RC_GREEN":0x0301,
+    "RC_CH_DOWN":0x0302,
+    "RC_CH_UP":0x0303
+    }
+
+def radio_remote_control():
+    keycode=m036.rc_read()
+    if keycode==RM_FR_Key_Codes["RC_POWER"]:
+        print("RC Power")
+        radioM036.quit(event=None)
+    if keycode==RM_FR_Key_Codes["RC_MUTE"]:
+        print("RC Mute")
+        radioM036.mute_unmute(event=None)
+    if keycode==RM_FR_Key_Codes["RC_VOL_UP"]:
+        print("RC Volume up")
+        radioM036.volume_up(event=None)   
+    if keycode==RM_FR_Key_Codes["RC_VOL_DOWN"]:
+        print("RC Volume down")
+        radioM036.volume_down(event=None)   
+    if keycode==RM_FR_Key_Codes["RC_CH_UP"]:
+        print("RC Channel up")
+        radioM036.station_next(event=None)   
+    if keycode==RM_FR_Key_Codes["RC_CH_DOWN"]:
+        print("RC Channel down")
+        radioM036.station_prev(event=None)  
+        
+    radioM036.after(1500,radio_remote_control)
+
+
+def tv_remote_control():
+    keycode=m036.rc_read()
+    if keycode==RM_FR_Key_Codes["RC_POWER"]:
+        print("RC Power")
+        tvM036.quit(event=None)
+    if keycode==RM_FR_Key_Codes["RC_MUTE"]:
+        print("RC Mute")
+        tvM036.mute_unmute(event=None)
+    if keycode==RM_FR_Key_Codes["RC_VOL_UP"]:
+        print("RC Volume up")
+        tvM036.volume_up(event=None)   
+    if keycode==RM_FR_Key_Codes["RC_VOL_DOWN"]:
+        print("RC Volume down")
+        tvM036.volume_down(event=None)   
+    if keycode==RM_FR_Key_Codes["RC_CH_UP"]:
+        print("RC Channel up")
+        tvM036.channel_next(event=None)   
+    if keycode==RM_FR_Key_Codes["RC_CH_DOWN"]:
+        print("RC Channel down")
+        tvM036.channel_prev(event=None)  
+    if keycode==RM_FR_Key_Codes["RC_PLAY"]:
+        print("RC Play")
+        tvM036.play_pause(event=None)  
+    if keycode==RM_FR_Key_Codes["RC_PAUSE"]:
+        print("RC Pause")
+        tvM036.play_pause(event=None)      
+    if keycode==RM_FR_Key_Codes["RC_STOP"]:
+        print("RC Stop")
+        tvM036.play_pause(event=None)
+    if keycode==RM_FR_Key_Codes["RC_SOURCE"]:
+        print("RC Source")
+        tvM036.source_changed(event=None)   
+        
+    tvM036.after(1500,tv_remote_control)
+
+
+#===============================================================================
 
 if  operatingMode != RADIO :
     
@@ -220,6 +323,7 @@ if  operatingMode != RADIO :
     vlcApp.audioPlayer.play()
     tvM036.master.wait_visibility()
     tvM036.master.resizable(False,False)
+    tv_remote_control()
     tvM036.mainloop()
 
 else :
@@ -264,6 +368,8 @@ else :
     radioM036.master.wait_visibility()
     
     radioM036.master.resizable(False,False)
+    
+    radio_remote_control()
     
     radioM036.mainloop()
 
