@@ -1401,7 +1401,8 @@ class M036Device():
     def rc_flush(self):
         """Flush remote control cache."""
         keycode=self.rc_read()
-        while keycode != 0xffff :
+        while keycode != 0xffff  and keycode != 0x0000   :
+            print("RC key: 0x{k:04x}".format(k=keycode))
             keycode=self.rc_read()
 
 class I2C(object):

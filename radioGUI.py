@@ -306,7 +306,7 @@ class RadioM036(ttk.Frame):
         self.frameButton.labelMuteUnmute=ttk.Label(self.frameButton)
         self.frameButton.labelMuteUnmute['image']=self.imgPause
         self.frameButton.labelMuteUnmute['padding']=(5,0,20,0)
-        self.frameButton.labelMuteUnmute.bind("<Button-1>", self.muteUnmute)
+        self.frameButton.labelMuteUnmute.bind("<Button-1>", self.mute_unmute)
         self.frameButton.labelMuteUnmute.grid(row=0,column=6)
 
         self.imgGoBottom=PhotoImage(file='icons/go-bottom.png')
@@ -443,7 +443,7 @@ class RadioM036(ttk.Frame):
         self.scalePlayerVolume.set(self.vlcApp.audioPlayer.audio_get_volume()/100)
 
     # =============================================================================     
-    def toCanvasX(self,X,dX,X0,dx,x0):
+    def X_to_x(self,X,dX,X0,dx,x0):
         x = dx / dX  *  (X - X0) + x0
         return x    
     def showvalue_scale_freq(self):
@@ -458,7 +458,7 @@ class RadioM036(ttk.Frame):
         X0=self.frequencyMHz_min
         dx=w-self.sliderLength
         x0=self.sliderLength/2
-        x = self.toCanvasX(X,dX,X0,dx,x0)
+        x = self.X_to_x(X,dX,X0,dx,x0)
         self.labelTuneFreq.place_configure(x=x)
     
     def set_audio_source_volume(self,event):
@@ -590,7 +590,7 @@ class RadioM036(ttk.Frame):
         self.imgAudioVolume=ImageTk.PhotoImage(img)    
         self.frameDisplay.labelAudioVolume['image']=self.imgAudioVolume 
         
-    def muteUnmute(self,event):
+    def mute_unmute(self,event):
         if self.paused:
             self.m036.audio_unmute()
             self.frameButton.labelMuteUnmute['image']=self.imgPause

@@ -225,8 +225,8 @@ class AppSettings(object):
         labelCaptureStart.grid(row=2,column=0, padx=(0,10), sticky=tk.NE)
          
         self.kCanvas=1.0 
-        self.initCanvases()         
-        self.setMaxCapture()    
+        self.init_canvases()         
+        self.set_max_capture()    
         
         self.m036.video_get_capture()
         self.m036.video_print_capture()
@@ -468,10 +468,10 @@ class AppSettings(object):
     def update_gui_frame_capture(self,event):
         if self.videoSizeClass == "576" :
             self.radiobuttonSize0['text'] = "720x576"
-            self.drawVideoFrame576()
+            self.draw_video_frame576()
         else:
             self.radiobuttonSize0['text'] = "720x480"
-            self.drawVideoFrame480()
+            self.draw_video_frame480()
              
     def update_gui_frame_v4l2_settings(self,event):
         deviceID=''.join(filter(str.isdigit,self.entryV4l2Device.get()))
@@ -556,7 +556,7 @@ class AppSettings(object):
         print("Selected video standard:",self.videoStandardList[self.indexVideoStandard])
         
         self.m036.vdVideoStandard=int(self.indexVideoStandard*2)
-        self.m036.vdi_set_video_standard(self.m036.vdVideoStandard)
+        self.m036.video_decoder_set_video_standard(self.m036.vdVideoStandard)
         time.sleep(1)
         self.m036.video_decoder_status_video_standard()
 
@@ -570,14 +570,14 @@ class AppSettings(object):
             self.scaleY480.set(0)
             self.Y=0
 
-        self.setMaxCapture()
+        self.set_max_capture()
         if self.videoSizeClass == "576" :
             self.frameCaptureStart480.grid_forget()
-            self.drawVideoFrame576() 
+            self.draw_video_frame576() 
             self.frameCaptureStart576.grid(row=2,column=1,sticky=tk.EW)   
         else :
             self.frameCaptureStart576.grid_forget()
-            self.drawVideoFrame480()
+            self.draw_video_frame480()
             self.frameCaptureStart480.grid(row=2,column=1,sticky=tk.EW)
 
         self.tvM036Settings.m036VideoStandard=self.m036.vdVideoStandard
@@ -714,7 +714,7 @@ class AppSettings(object):
     
     # =============================================================================
     
-    def initCanvases(self):
+    def init_canvases(self):
         self.sliderLength=30
         w=self.kCanvas*240 
         h=self.kCanvas*162
@@ -726,7 +726,7 @@ class AppSettings(object):
         self.rect1_576=None
         self.rect1_480=None
 
-    def setMaxCapture(self):    
+    def set_max_capture(self):    
         self.X0_576=0
         self.X1_576=720
         self.Y0_576=0
@@ -740,22 +740,22 @@ class AppSettings(object):
         self.deltaX480=self.X1_480-self.X0_480
         self.deltaY480=self.Y1_480-self.Y0_480
     
-    def toCanvasX576(self, X):
+    def to_canvas_X576(self, X):
         x = ( (self.scaleX576.winfo_width() - self.sliderLength) / self.deltaX576) * (X - self.X0_576) + self.sliderLength / 2 
         return x
-    def toCanvasY576(self, Y):
+    def to_canvas_Y576(self, Y):
         y = ( (self.scaleY576.winfo_height() - self.sliderLength) / self.deltaY576)  * (Y - self.Y0_576) + self.sliderLength / 2
         return y
     
-    def toCanvasX480(self, X):
+    def to_canvas_X480(self, X):
         x = ( (self.scaleX480.winfo_width() - self.sliderLength) / self.deltaX480) * (X - self.X0_480) + self.sliderLength / 2 
         return x
-    def toCanvasY480(self, Y):
+    def to_canvas_Y480(self, Y):
         y = ( (self.scaleY480.winfo_height() - self.sliderLength) / self.deltaY480)  * (Y - self.Y0_480) + self.sliderLength / 2
         return y  
     
 
-    def showScaleValues(self,event):
+    def show_scale_values(self,event):
         if self.videoSizeClass == "576" :
             X=self.scaleX576.get()
             Y=self.scaleY576.get()
@@ -763,7 +763,7 @@ class AppSettings(object):
             self.labelX576['text']="{}".format(int(X))
             self.labelY576['text']="{}".format(int(Y))
             
-            x=self.toCanvasX576(X)
+            x=self.to_canvas_X576(X)
             half_width = self.labelX576.winfo_width() / 2
             if x + half_width > self.scaleX576.winfo_width():
                 x = self.scaleX576.winfo_width() - half_width
@@ -772,7 +772,7 @@ class AppSettings(object):
             self.labelX576.place_configure(x=x)
             
             x=self.scaleY576.winfo_width() + self.labelY576.winfo_width()/2 + 4
-            y = self.toCanvasY576(float(Y))  + self.sliderLength/2 
+            y = self.to_canvas_Y576(float(Y))  + self.sliderLength/2 
             half_heigth = self.labelY576.winfo_height() / 2
             y=y-half_heigth+2
             self.labelY576.place_configure(x=x,y=y)  
@@ -782,7 +782,7 @@ class AppSettings(object):
             self.labelX480['text']="{}".format(int(X))
             self.labelY480['text']="{}".format(int(Y))
             
-            x=self.toCanvasX480(X)
+            x=self.to_canvas_X480(X)
             half_width = self.labelX480.winfo_width() / 2
             if x + half_width > self.scaleX480.winfo_width():
                 x = self.scaleX480.winfo_width() - half_width
@@ -791,21 +791,21 @@ class AppSettings(object):
             self.labelX480.place_configure(x=x)
             
             x=self.scaleY480.winfo_width() + self.labelY480.winfo_width()/2 + 4
-            y = self.toCanvasY480(float(Y))  + self.sliderLength/2 
+            y = self.to_canvas_Y480(float(Y))  + self.sliderLength/2 
             half_heigth = self.labelY480.winfo_height() / 2
             y=y-half_heigth+2
             self.labelY480.place_configure(x=x,y=y)  
 
-    def drawVideoFrame576(self):
-        self.showScaleValues(self)
+    def draw_video_frame576(self):
+        self.show_scale_values(self)
         X=self.scaleX576.get()
         Y=self.scaleY576.get()        
         X1=X+self.captureWidth
         Y1=Y+self.captureHeight            
-        x0=self.toCanvasX576(X)
-        y0=self.toCanvasY576(Y)
-        x1=self.toCanvasX576(X1)
-        y1=self.toCanvasY576(Y1)        
+        x0=self.to_canvas_X576(X)
+        y0=self.to_canvas_Y576(Y)
+        x1=self.to_canvas_X576(X1)
+        y1=self.to_canvas_Y576(Y1)        
         
         self.labelX576['text']="{}".format(int(X))
         self.labelY576['text']="{}".format(int(Y))        
@@ -814,16 +814,16 @@ class AppSettings(object):
             self.canvas576.delete(self.rect1_576)
         self.rect1_576=self.canvas576.create_rectangle(x0, y0, x1, y1, fill = "red")
 
-    def drawVideoFrame480(self):
-        self.showScaleValues(self)
+    def draw_video_frame480(self):
+        self.show_scale_values(self)
         X=self.scaleX480.get()
         Y=self.scaleY480.get()
         X1=X+self.captureWidth
         Y1=Y+self.captureHeight
-        x0=self.toCanvasX480(X)
-        y0=self.toCanvasY480(Y)
-        x1=self.toCanvasX480(X1)
-        y1=self.toCanvasY480(Y1)        
+        x0=self.to_canvas_X480(X)
+        y0=self.to_canvas_Y480(Y)
+        x1=self.to_canvas_X480(X1)
+        y1=self.to_canvas_Y480(Y1)        
         
         self.labelX480['text']="{}".format(int(X))
         self.labelY480['text']="{}".format(int(Y))
@@ -845,7 +845,7 @@ class AppSettings(object):
             self.Y576=self.Y1_576 - self.captureHeight
             self.scaleY576.set(self.Y576)
             self.scaleY576['command']=self.capture_changed_576
-        self.drawVideoFrame576()
+        self.draw_video_frame576()
         
         x0=int(self.X576)
         y0=int(self.Y576)
@@ -870,7 +870,7 @@ class AppSettings(object):
             self.Y480=self.Y1_480 - self.captureHeight
             self.scaleY480.set(self.Y480)
             self.scaleY480['command']=self.capture_changed_480
-        self.drawVideoFrame480()
+        self.draw_video_frame480()
         
         x0=int(self.X480)
         y0=int(self.Y480)
@@ -1001,11 +1001,11 @@ class DialogChannelRemove(object):
         self.labelQuestion2['font']=self.helv10b
         self.labelQuestion2.grid(row=1,columnspan=2)                
                
-        self.buttonYes = ttk.Button(self.frameChannelRemove, text="Yes", command=self.Yes)
+        self.buttonYes = ttk.Button(self.frameChannelRemove, text="Yes", command=self.yes)
         self.buttonYes.focus()
         self.buttonYes.grid(row=2,column=0, padx=10, pady=5, sticky=tk.E)
         
-        self.buttonNo = ttk.Button(self.frameChannelRemove, text="No", command=self.No)
+        self.buttonNo = ttk.Button(self.frameChannelRemove, text="No", command=self.no)
         self.buttonNo.grid(row=2,column=1, padx=10, sticky=tk.W)
 
         self.root.wait_visibility()
@@ -1020,12 +1020,12 @@ class DialogChannelRemove(object):
             self.root.grab_release()
             self.root.destroy()  
 
-    def Yes(self):
+    def yes(self):
         self.yesNo = "Yes"
         self.root.grab_release()
         self.root.destroy()
 
-    def No(self):
+    def no(self):
         self.yesNo = "No"
         self.root.grab_release()
         self.root.destroy()
@@ -1196,7 +1196,7 @@ class ChannelSettings(object):
         
         self.labelChannelAdd=ttk.Label(self.frameAction0)
         self.labelChannelAdd['image']=self.imgChannelAdd
-        self.labelChannelAdd.bind("<Button-1>", self.setGUI1)
+        self.labelChannelAdd.bind("<Button-1>", self.set_GUI1)
         self.labelChannelAdd.grid(row=0,column=2)
         self.labelChannelAdd['padding']=(5,0,5,0)
         
@@ -1223,13 +1223,13 @@ class ChannelSettings(object):
         
         self.labelCancel=ttk.Label(self.frameAction1)
         self.labelCancel['image']=self.imgStop
-        self.labelCancel.bind("<Button-1>", self.setGUI0)
+        self.labelCancel.bind("<Button-1>", self.set_GUI0)
         self.labelCancel.grid(row=0,column=2)
         self.labelCancel['padding']=(5,0,5,0)
         
 #       ====================================================       
 
-        self.setGUI0(self)
+        self.set_GUI0(self)
         
         self.root.wait_visibility()
         self.root.grab_set()
@@ -1238,14 +1238,14 @@ class ChannelSettings(object):
         
 #   =============================================================
 
-    def setGUI0 (self,event):
+    def set_GUI0 (self,event):
         self.frameMain1.grid_forget()
         self.frameAction1.grid_forget()
         self.frameMain0.grid(row=0,sticky=tk.N+tk.E+tk.S+tk.W)
         self.frameAction0.grid(row=3,sticky=tk.N+tk.E+tk.S+tk.W)
-        self.updateGUI0(self)
+        self.update_GUI0(self)
     
-    def setGUI1 (self,event):
+    def set_GUI1 (self,event):
         self.frameMain0.grid_forget()
         self.frameAction0.grid_forget()
         self.frameMain1.grid(row=0,sticky=tk.N+tk.E+tk.S+tk.W)
@@ -1253,9 +1253,9 @@ class ChannelSettings(object):
         self.scaleFrequency1.set(0)
         self.entryChannelName1.delete(0, END)
         self.frequencyMHz=self.frequencyDict[self.frequencyName]
-        self.updateGUI1(self)
+        self.update_GUI1(self)
    
-    def updateGUI0(self,event):
+    def update_GUI0(self,event):
         self.valuesChannellist = ["" for i in range(len(self.tvChannels.channels))] 
         for i in range(len(self.tvChannels.channels)):
             item=" {fName} : {freq:6.2f} MHz : {name} " 
@@ -1267,7 +1267,7 @@ class ChannelSettings(object):
         
         self.tvM036.update_display()
         
-    def updateGUI1(self,event):
+    def update_GUI1(self,event):
         valueFrequency=" {fName} : {freq:6.2f} MHz".format(fName=self.frequencyName,freq=self.frequencyDict[self.frequencyName]) 
         self.comboboxFrequency.set(valueFrequency)
         self.labelFrequency['text']="{:.2f} MHz".format(self.frequencyMHz)        
@@ -1287,7 +1287,7 @@ class ChannelSettings(object):
         self.scaleFrequency.set((self.frequencyMHz-self.frequencyDict[self.frequencyName])/0.25)
         
         
-        self.updateGUI0(self)
+        self.update_GUI0(self)
         self.entryChannelName.delete(0, END)
         self.entryChannelName.insert(0,self.tvChannels.channels[self.tvChannels.channel].name)
         
@@ -1308,7 +1308,7 @@ class ChannelSettings(object):
         
         self.entryChannelName.delete(0, END)
         self.entryChannelName.insert(0,self.tvChannels.channels[self.tvChannels.channel].name)
-        self.updateGUI0(self)
+        self.update_GUI0(self)
 
         self.tvM036.set_tv_channel(self.tvChannel)
         print(self.frequencyName, self.frequencyMHz)
@@ -1327,7 +1327,7 @@ class ChannelSettings(object):
 
         self.entryChannelName.delete(0, END)
         self.entryChannelName.insert(0,self.tvChannels.channels[self.tvChannels.channel].name)
-        self.updateGUI0(self)
+        self.update_GUI0(self)
     
         self.tvM036.set_tv_channel(self.tvChannel)
         print(self.frequencyName, self.frequencyMHz)
@@ -1338,7 +1338,7 @@ class ChannelSettings(object):
         self.frequencyName=self.tvChannel.frequencyName
         self.frequencyMHz=self.tvChannel.frequencyMHz
         self.scaleFrequency.set((self.frequencyMHz-self.frequencyDict[self.frequencyName])/0.25)
-        self.updateGUI0(self)
+        self.update_GUI0(self)
 
         self.tvM036.set_tv_channel(self.tvChannel)
         print(self.frequencyName, self.frequencyMHz)   
@@ -1347,7 +1347,7 @@ class ChannelSettings(object):
         print("Frequency changed")
         tvChannel=self.tvChannels.channels[self.tvChannels.channel]
         self.frequencyMHz=self.frequencyDict[self.frequencyName]+0.25*self.scaleFrequency.get()
-        self.updateGUI0(self)
+        self.update_GUI0(self)
         
         print("TV tuner frequency: {f} MHz".format(f=self.frequencyMHz))
         # self.tvM036.set_tv_tuner(self.frequencyMHz)
@@ -1361,7 +1361,7 @@ class ChannelSettings(object):
         self.tvChannel.name=self.entryChannelName.get()
 
         self.tvChannels.update_channel(self.tvChannels.channel,self.tvChannel)
-        self.updateGUI0(self)
+        self.update_GUI0(self)
         self.tvChannels.print()
         
     def channel_add(self,event):
@@ -1377,7 +1377,7 @@ class ChannelSettings(object):
         
         self.entryChannelName.delete(0, END)
         self.entryChannelName.insert(0,self.tvChannel.name)
-        self.setGUI0(self)
+        self.set_GUI0(self)
 
     def channel_remove(self, event):
         print("Channel remove!")
@@ -1392,7 +1392,7 @@ class ChannelSettings(object):
             self.tvChannel=self.tvChannels.channels[self.tvChannels.channel]
             self.entryChannelName.delete(0, END)
             self.entryChannelName.insert(0,self.tvChannels.channels[self.tvChannels.channel].name)
-            self.updateGUI0(self)
+            self.update_GUI0(self)
             self.tvM036.set_tv_channel(self.tvChannel)
             self.frequencyName=self.tvChannel.frequencyName      
             self.frequencyMHz=self.tvChannel.frequencyMHz  
@@ -1405,7 +1405,7 @@ class ChannelSettings(object):
         print(self.frequencyName)
         self.frequencyMHz=self.frequencyDict[self.frequencyName]
         self.scaleFrequency1.set(0)
-        self.updateGUI1(self)
+        self.update_GUI1(self)
         
         self.m036.set_tv_tuner(self.frequencyMHz)
 
@@ -1417,7 +1417,7 @@ class ChannelSettings(object):
         self.frequencyName=list(self.frequencyDict.keys())[iFreq]
         self.frequencyMHz=self.frequencyDict[self.frequencyName]
         self.scaleFrequency1.set(0)
-        self.updateGUI1(self)
+        self.update_GUI1(self)
         
         self.m036.set_tv_tuner(self.frequencyMHz)
     
@@ -1429,27 +1429,27 @@ class ChannelSettings(object):
         self.frequencyName=list(self.frequencyDict.keys())[iFreq]
         self.frequencyMHz=self.frequencyDict[self.frequencyName]
         self.scaleFrequency1.set(0)
-        self.updateGUI1(self) 
+        self.update_GUI1(self) 
         
         self.m036.set_tv_tuner(self.frequencyMHz)
     
     def frequency_default(self,event):
         self.frequencyMHz=self.frequencyDict[self.frequencyName]
         self.scaleFrequency1.set(0)
-        self.updateGUI1(self) 
+        self.update_GUI1(self) 
         
         self.m036.set_tv_tuner(self.frequencyMHz)
     
     def frequency_changed1(self,event):
         print("Frequency changed")
         self.frequencyMHz=self.frequencyDict[self.frequencyName]+0.25*self.scaleFrequency.get()
-        self.updateGUI1(self)
+        self.update_GUI1(self)
         print("TV tuner frequency: {f} MHz".format(f=self.frequencyMHz))
 
         self.m036.set_tv_tuner(self.frequencyMHz)
    
     def cancel (self, event):    
-        self.setGUI0()
+        self.set_GUI0()
         
 #   ========================================================
 
@@ -1474,6 +1474,7 @@ class TvM036(ttk.Frame):
         self.audioControl=kwargs['audioControl']
         
         self.paused=False
+        self.muted=False
         
         ttk.Frame.__init__(self, master)
         self.grid(padx=1,pady=1)
@@ -1620,7 +1621,7 @@ class TvM036(ttk.Frame):
         self.labelPlayPause=ttk.Label(self.frameControl)
         self.labelPlayPause['image']=self.imgPause
         self.labelPlayPause['padding']=(5,0,5,0)
-        self.labelPlayPause.bind("<Button-1>", self.playPause)
+        self.labelPlayPause.bind("<Button-1>", self.play_pause)
         self.labelPlayPause.grid(row=0,column=6)
         
         self.frameControl.columnconfigure(7, minsize=10)
@@ -1730,7 +1731,7 @@ class TvM036(ttk.Frame):
 
         self.update_display()
 
-    def playPause(self,event):
+    def play_pause(self,event):
         
         if self.paused:
             self.labelPlayPause['image']=self.imgPause
@@ -1742,6 +1743,15 @@ class TvM036(ttk.Frame):
             self.m036.vdi_stop_capturing()
             self.audioControl.mute()
             self.paused=True        
+
+
+    def mute_unmute(self,event):
+        if self.paused:
+            self.m036.audio_unmute()
+            self.paused=False
+        else:
+            self.m036.audio_mute()
+            self.paused=True
 
     def channelSettings(self,event):
         d = ChannelSettings(self.master, self, self.tvChannels, self.m036, self.frequencyDict)
@@ -1764,8 +1774,8 @@ class TvM036(ttk.Frame):
         
         d = AppSettings(self.master,self,self.tvM036Settings,self.streamDevice,self.streamer,self.m036,self.audioSources,self.audioControl,self.vlcApp)
 
-        d.drawVideoFrame576()
-        d.drawVideoFrame480()
+        d.draw_video_frame576()
+        d.draw_video_frame480()
         print("Video size class: ", d.videoSizeClass) 
         if d.videoSizeClass == "576" :
             d.frameCaptureStart480.grid_forget()
@@ -1857,7 +1867,8 @@ class TvM036(ttk.Frame):
         
         self.tvM036Settings.write(self.tvM036Settings.fileSettings)
         self.m036.audio_mute()
-        self.streamer.terminate()  
+        self.streamer.terminate()
+        self.m036.rc_flush()
         self.m036.gpio_led(False)
         self.m036.close()
         quit()   
