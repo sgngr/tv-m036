@@ -259,6 +259,16 @@ def radio_remote_control():
     if keycode==RM_FR_Key_Codes["RC_CH_DOWN"]:
         print("RC Channel down")
         radioM036.station_prev(event=None)  
+    if keycode==RM_FR_Key_Codes["RC_PLAY"]:
+        print("RC Play")
+        radioM036.mute_unmute(event=None)  
+    if keycode==RM_FR_Key_Codes["RC_PAUSE"]:
+        print("RC Pause")
+        radioM036.mute_unmute(event=None)      
+    if keycode==RM_FR_Key_Codes["RC_STOP"]:
+        print("RC Stop")
+        radioM036.mute_unmute(event=None)
+        
         
     radioM036.after(1500,radio_remote_control)
 
@@ -295,7 +305,6 @@ def tv_remote_control():
     if keycode==RM_FR_Key_Codes["RC_SOURCE"]:
         print("RC Source")
         tvM036.source_changed(event=None)   
-        
     tvM036.after(1500,tv_remote_control)
 
 
