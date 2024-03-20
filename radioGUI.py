@@ -709,7 +709,9 @@ class RadioM036(ttk.Frame):
     def quit(self,event):
         self.m036.print_audio_codec_registers()
         self.m036.audio_mute()
-        self.m036.close()
         self.radioStations.write()
         self.tvM036Settings.write(self.tvM036Settings.fileSettings)
+        self.m036.rc_flush()
+        self.m036.gpio_led(False)
+        self.m036.close()
         quit()
