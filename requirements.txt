@@ -1,5 +1,5 @@
 libusb1==3.1.0
-pillow==10.2.0
+pillow==10.3.0
 pulsectl==23.5.2
 python-vlc==3.0.20123
 v4l2py==2.3.0
