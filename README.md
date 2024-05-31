@@ -3,7 +3,7 @@
 
 ---
 
-![ScreenShot](https://burabizim.org.tr/tvM036/Screenshot-tvM036.png) 
+![ScreenShot](http://burabizim.org.tr/tvM036/Screenshot-tvM036.png) 
 
 
 tvM036 is a Linux app for the AVerMedia AVerTV USB2.0 Plus (USB Id: 07ca:0036). The python module `m036Device`  provides classes of functions to control the hardware. The main controller of the device - Syntek DC1120 video controller - is an ancestor of Syntek STK11xx series video imaging controllers and has similar registers with this series of controllers. 
