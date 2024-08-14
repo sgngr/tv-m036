@@ -46,7 +46,7 @@ class DC1120():
     AIC  =0x2FC
     
     TIGEN=0x300     # Timing Generator
-    TICTL=0x350     # Timing Control Paramater
+    TICTL=0x350     # Timing Control Parameter
 
     AC97CTL_0=0x500 # Audio Control Register 0
     AC97CTL_1=0x504 # Audio Control Register 1
@@ -168,7 +168,7 @@ class Utils():
         return "{:04b}".format(x>>4)+" "+"{:04b}".format(x&0x0F)
     
     def word2bits(self,x):
-        """Return a formated string from bits of x."""
+        """Return a formatted string from bits of x."""
         return "{:04b}".format(x>>12)+" "+"{:04b}".format((x>>8)&0x0F)+" "+"{:04b}".format((x>>4)&0x0F)+" "+"{:04b}".format(x&0x0F)
     
 utils = Utils()
@@ -456,7 +456,7 @@ class M036Device():
 #   Serial bus interface functions
 
     def sbi_set_clock_devider(self):
-        """Set serial interface clock devider."""
+        """Set serial interface clock divider."""
         self.ctrl_tx(0x0202,0x001e)
     
     def sbi_select_device(self,sda):
@@ -1249,7 +1249,7 @@ class M036Device():
 #            DIR [0]  - 0 Output
 #
 #  0x0504 Audio Control Register 1
-#            CMA [6:0] - Command adress
+#            CMA [6:0] - Command address
 
     def ai_init(self):
         """Initialize the audio interface."""
