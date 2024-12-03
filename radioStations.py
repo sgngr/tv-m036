@@ -11,8 +11,6 @@ License:    GPL v2
 
 import os
 import platform
-
-
 from lxml import etree
 
 class RadioStation():
@@ -60,15 +58,7 @@ class RadioStations():
             etree.SubElement(Station,"frequency_MHz").text="{freq:.2f}".format(freq=self.stations[i].frequencyMHz)        
         tree = etree.ElementTree(root)
         tree.write(self.fileStationList,encoding="utf-8", xml_declaration=True, pretty_print=True)
-        
-        from shutil import which
-        if which('xml') :
-            cmd="xml format {file} > {file}.1".format(file=self.fileStationList)
-            print(cmd)
-            os.system(cmd)
-            cmd="mv {file}.1 {file} ".format(file=self.fileStationList)
-            print(cmd)
-            os.system(cmd)
+
     def add_station(self,radioStation):        
         stationToAdd="{freq:.2f} MHz : {name}".format(freq=radioStation.frequencyMHz,name=radioStation.name)
         print (stationToAdd)

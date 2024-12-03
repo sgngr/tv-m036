@@ -10,7 +10,7 @@ License:    GPL v2
 
 import os
 import platform
-import xml.etree.ElementTree as ET
+from lxml import etree
         
 class Settings():
     def __init__(self):
@@ -49,7 +49,7 @@ class Settings():
             self.read(self.fileSettings)
         
     def read (self,file):
-        tree=ET.parse(file)
+        tree=etree.parse(file)
         root=tree.getroot()
         self.v4l2Device=root.find('v4l2_device').text  
         self.audioSource=root.find('audio_source').text
@@ -82,45 +82,37 @@ class Settings():
         self.m036CompositeCaptureEndY=int(root.find('m036_composite_capture_end_y').text)
         
     def write(self,file):
-        root = ET.Element("settings")
-        r=ET.SubElement(root,"v4l2_device").text="{}".format(self.v4l2Device)
-        r=ET.SubElement(root,"audio_source").text="{}".format(self.audioSource)
-        r=ET.SubElement(root,"audio_source_volume").text="{v:.2f}".format(v=self.audioSourceVolume)
-        r=ET.SubElement(root,"audio_player_volume").text="{v}".format(v=self.audioPlayerVolume)
+        root = etree.Element("settings")
+        r=etree.SubElement(root,"v4l2_device").text="{}".format(self.v4l2Device)
+        r=etree.SubElement(root,"audio_source").text="{}".format(self.audioSource)
+        r=etree.SubElement(root,"audio_source_volume").text="{v:.2f}".format(v=self.audioSourceVolume)
+        r=etree.SubElement(root,"audio_player_volume").text="{v}".format(v=self.audioPlayerVolume)
         
-        r=ET.SubElement(root,"m036_operating_mode").text="{}".format(self.m036OperatingMode)
+        r=etree.SubElement(root,"m036_operating_mode").text="{}".format(self.m036OperatingMode)
         
-        r=ET.SubElement(root,"m036_audio_source").text="{}".format(self.m036AudioSource)
-        r=ET.SubElement(root,"m036_video_source").text="{}".format(self.m036VideoSource)
+        r=etree.SubElement(root,"m036_audio_source").text="{}".format(self.m036AudioSource)
+        r=etree.SubElement(root,"m036_video_source").text="{}".format(self.m036VideoSource)
         
-        r=ET.SubElement(root,"m036_tv_video_standard").text="{}".format(self.m036TvVideoStandard)
-        r=ET.SubElement(root,"m036_tv_capture_start_x").text="{}".format(self.m036TvCaptureStartX)
-        r=ET.SubElement(root,"m036_tv_capture_start_y").text="{}".format(self.m036TvCaptureStartY)        
-        r=ET.SubElement(root,"m036_tv_capture_end_x").text="{}".format(self.m036TvCaptureEndX)
-        r=ET.SubElement(root,"m036_tv_capture_end_y").text="{}".format(self.m036TvCaptureEndY)
+        r=etree.SubElement(root,"m036_tv_video_standard").text="{}".format(self.m036TvVideoStandard)
+        r=etree.SubElement(root,"m036_tv_capture_start_x").text="{}".format(self.m036TvCaptureStartX)
+        r=etree.SubElement(root,"m036_tv_capture_start_y").text="{}".format(self.m036TvCaptureStartY)        
+        r=etree.SubElement(root,"m036_tv_capture_end_x").text="{}".format(self.m036TvCaptureEndX)
+        r=etree.SubElement(root,"m036_tv_capture_end_y").text="{}".format(self.m036TvCaptureEndY)
         
-        r=ET.SubElement(root,"m036_composite_video_standard").text="{}".format(self.m036CompositeVideoStandard)
-        r=ET.SubElement(root,"m036_composite_capture_start_x").text="{}".format(self.m036CompositeCaptureStartX)
-        r=ET.SubElement(root,"m036_composite_capture_start_y").text="{}".format(self.m036CompositeCaptureStartY)        
-        r=ET.SubElement(root,"m036_composite_capture_end_x").text="{}".format(self.m036CompositeCaptureEndX)
-        r=ET.SubElement(root,"m036_composite_capture_end_y").text="{}".format(self.m036CompositeCaptureEndY)
+        r=etree.SubElement(root,"m036_composite_video_standard").text="{}".format(self.m036CompositeVideoStandard)
+        r=etree.SubElement(root,"m036_composite_capture_start_x").text="{}".format(self.m036CompositeCaptureStartX)
+        r=etree.SubElement(root,"m036_composite_capture_start_y").text="{}".format(self.m036CompositeCaptureStartY)        
+        r=etree.SubElement(root,"m036_composite_capture_end_x").text="{}".format(self.m036CompositeCaptureEndX)
+        r=etree.SubElement(root,"m036_composite_capture_end_y").text="{}".format(self.m036CompositeCaptureEndY)
 
-        r=ET.SubElement(root,"m036_svideo_video_standard").text="{}".format(self.m036SVideoVideoStandard)
-        r=ET.SubElement(root,"m036_svideo_capture_start_x").text="{}".format(self.m036SVideoCaptureStartX)
-        r=ET.SubElement(root,"m036_svideo_capture_start_y").text="{}".format(self.m036SVideoCaptureStartY)        
-        r=ET.SubElement(root,"m036_svideo_capture_end_x").text="{}".format(self.m036SVideoCaptureEndX)
-        r=ET.SubElement(root,"m036_svideo_capture_end_y").text="{}".format(self.m036SVideoCaptureEndY)
+        r=etree.SubElement(root,"m036_svideo_video_standard").text="{}".format(self.m036SVideoVideoStandard)
+        r=etree.SubElement(root,"m036_svideo_capture_start_x").text="{}".format(self.m036SVideoCaptureStartX)
+        r=etree.SubElement(root,"m036_svideo_capture_start_y").text="{}".format(self.m036SVideoCaptureStartY)        
+        r=etree.SubElement(root,"m036_svideo_capture_end_x").text="{}".format(self.m036SVideoCaptureEndX)
+        r=etree.SubElement(root,"m036_svideo_capture_end_y").text="{}".format(self.m036SVideoCaptureEndY)
         
-        tree = ET.ElementTree(root)
-        tree.write(file,encoding="utf-8", xml_declaration=True)
-        from shutil import which
-        if which('xml') :
-            cmd="xml format {file} > {file}.1".format(file=self.fileSettings)
-            print(cmd)
-            os.system(cmd)
-            cmd="mv {file}.1 {file} ".format(file=self.fileSettings)
-            print(cmd)
-            os.system(cmd)
+        tree = etree.ElementTree(root)
+        tree.write(file,encoding="utf-8", xml_declaration=True, pretty_print=True)
 
     def print(self):
         print("Application Settings:")
