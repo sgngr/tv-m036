@@ -12,7 +12,8 @@ License:    GPL v2
 import os
 import platform
 
-import xml.etree.ElementTree as ET
+
+from lxml import etree
 
 class RadioStation():
     def __init__(self,frequencyMHz=None,name=None):
@@ -33,7 +34,7 @@ class RadioStations():
     def read(self):
         isFile = os.path.isfile(self.fileStationList)
         if isFile:
-            tree=ET.parse(self.fileStationList)
+            tree=etree.parse(self.fileStationList)
             root=tree.getroot()
             self.station=int(root[0].text)
             self.stations = []
@@ -51,14 +52,15 @@ class RadioStations():
             self.nStation=1
             self.station=0
     def write(self):
-        root = ET.Element("playlist")
-        Playing=ET.SubElement(root,"playing").text="{}".format(self.station)
+        root = etree.Element("playlist")
+        Playing=etree.SubElement(root,"playing").text="{}".format(self.station)
         for i in range (self.nStation):
-            Station=ET.SubElement(root,"station")
-            ET.SubElement(Station,"name").text=self.stations[i].name
-            ET.SubElement(Station,"frequency_MHz").text="{freq:.2f}".format(freq=self.stations[i].frequencyMHz)
-        tree = ET.ElementTree(root)
-        tree.write(self.fileStationList,encoding="utf-8", xml_declaration=True)
+            Station=etree.SubElement(root,"station")
+            etree.SubElement(Station,"name").text=self.stations[i].name
+            etree.SubElement(Station,"frequency_MHz").text="{freq:.2f}".format(freq=self.stations[i].frequencyMHz)        
+        tree = etree.ElementTree(root)
+        tree.write(self.fileStationList,encoding="utf-8", xml_declaration=True, pretty_print=True)
+        
         from shutil import which
         if which('xml') :
             cmd="xml format {file} > {file}.1".format(file=self.fileStationList)

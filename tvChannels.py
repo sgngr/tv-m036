@@ -119,7 +119,7 @@ frequencyDict = {
 # Channel playlist
 #----------------------- 
 
-import xml.etree.ElementTree as ET
+from lxml import etree
 
 class TvChannel():
     def __init__(self):
@@ -138,7 +138,7 @@ class TvChannels():
     def read(self):
         isFile = os.path.isfile(self.fileChannelList)
         if isFile:
-            tree=ET.parse(self.fileChannelList)
+            tree=etree.parse(self.fileChannelList)
             root=tree.getroot()
             self.channel=int(root[0].text)
             self.channels = []
@@ -158,24 +158,16 @@ class TvChannels():
             self.nChannel=1
             self.channel=0
     def write(self):        
-        root = ET.Element("channelList")
-        Playing=ET.SubElement(root,"playing").text="{}".format(self.channel)
+        root = etree.Element("channelList")
+        Playing=etree.SubElement(root,"playing").text="{}".format(self.channel)
         for i in range (self.nChannel):
-            Channel=ET.SubElement(root,"tvChannel")
-            ET.SubElement(Channel,"frequencyName").text="{fName}".format(fName=self.channels[i].frequencyName)
-            ET.SubElement(Channel,"frequencyMHz").text="{freq:.2f}".format(freq=self.channels[i].frequencyMHz)
-            ET.SubElement(Channel,"name").text=self.channels[i].name
-        tree = ET.ElementTree(root)
-        tree.write(self.fileChannelList,encoding="utf-8", xml_declaration=True)
+            Channel=etree.SubElement(root,"tvChannel")
+            etree.SubElement(Channel,"frequencyName").text="{fName}".format(fName=self.channels[i].frequencyName)
+            etree.SubElement(Channel,"frequencyMHz").text="{freq:.2f}".format(freq=self.channels[i].frequencyMHz)
+            etree.SubElement(Channel,"name").text=self.channels[i].name
+        tree = etree.ElementTree(root)
+        tree.write(self.fileChannelList,encoding="utf-8", xml_declaration=True, pretty_print=True)
 
-        from shutil import which
-        if which('xml') :
-            cmd="xml format {file} > {file}.1".format(file=self.fileChannelList)
-            print(cmd)
-            os.system(cmd)
-            cmd="mv {file}.1 {file} ".format(file=self.fileChannelList)
-            print(cmd)
-            os.system(cmd)
     def add_channel(self,tvChannel):        
         channelToAdd="{fName} : {freq:6.2f} MHz : {name}".format(fName=tvChannel.frequencyName,freq=tvChannel.frequencyMHz,name=tvChannel.name)
         print (channelToAdd)
